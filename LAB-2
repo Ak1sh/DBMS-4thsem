@@ -1,0 +1,102 @@
+show tables;
+show databases;
+
+create database banking;
+use banking;
+
+ create table Branch(branchname varchar(30),branchcity varchar(30),assests real, primary key(branchname)); 
+create table Accounts(accno integer,branchname varchar(30), balance real ,primary key (accno)); 
+create table Customer(customername varchar(30),customerstreet varchar(30),customercity varchar(30),primary key(customername)); 
+create table Depositer(customername varchar(30),accno integer,primary key(customername,accno),foreign key(customername) references Customer(customername), foreign key(accno) references Accounts(accno)); 
+create table Loan (loan-number varchar(10),branchname varchar(30),amount real,primary key (loannumber), foreign key (branchname) references Branch(branchname)); 
+create table Borrower(customername varchar(30),loan-number varchar(10),primary key(customername,loan-number),foreign key (customername) references Customer(customername),foreign key(loan-number references loan (loan-number));
+
+ 
+ desc Branch;
+ desc Accounts;
+ desc Customer;
+ desc Depositer;
+ desc Loan;
+ desc Borrower;
+ 
+insert into Branch values('HDFC_Malleswaram','Bengaluru',12,50,00,00,000);
+insert into Branch values('HDFC_Chamrajpet','Bengaluru',50,00,000);
+insert into Branch values('HDFC_Uppal,'Hyderabad',60,00,000);
+insert into Branch values('HDFC_Nagole','Hyderabad',14,00,000);
+insert into Branch values('HDFC_Sowcarpet','Chennai',20,00,000);
+
+insert into Accounts values('1234 5897', 'HDFC_Malleswaram', 25000);
+insert into Accounts values('8123 6666', 'HDFC_Malleswaram', 5000);
+insert into Accounts values('1111 2222', 'HDFC_Uppal',5000);
+insert into Accounts values('9911 1199','HDFC_Uppal',4000);
+insert into Accounts values('3333 4444', 'HDFC_Nagole', 2000);
+insert into Accounts values('7777 8989', 'HDFC_Sowcarpet', 3000);
+insert into Accounts values('1211 6166', 'HDFC_Chamrajpet', 2111);
+
+insert into Customer values('Anirudh M', 'Church St.', 'Bengaluru');
+insert into Customer values('Rahul', 'Dilsukhnagar', 'Bengaluru');
+insert into Customer values('Lokesh', 'Nagole', 'Hyderabad');
+insert into Customer values('Amarnath', 'Uppal', 'Hyderabad');
+insert into Customer values('Tarun', 'Sowcarpet', 'Chennai');
+insert into Customer values('Aditya', 'Hebbal', 'Bengaluru');
+ 
+insert into Loan values('81ABC76','HDFC_Malleswaram');
+insert into Loan values('23CD23','HDFC_Chamrajpet');
+insert into Loan values('15FG15','HDFC_Uppal);
+insert into Loan values('15FG14','HDFC_Uppal);
+insert into Loan values('23II81','HDFC_Nagole');
+insert into Loan values('99KK99','HDFC_Sowcarpet');
+
+insert into Depositor values('Anirudh M','1234 5897');
+insert into Depositor values('Anirudh M','8123 6666');
+insert into Depositor values('Rahul','1111 2222');
+insert into Depositor values('Lokesh','3333 4444');
+insert into Depositor values('Tarun','7777 8989');
+insert into Depositor values('Aditya','1211 6166');
+insert into Depositor values('Amarnath','9911 1199');
+
+insert into Borrower values('Anirudh M','81ABC76');
+insert into Borrower values('Rahul','15FG15');
+insert into Borrower values('Lokesh','23II81');
+insert into Borrower values('Amarnath','15FG14');
+insert into Borrower values('Tarun','99KK99');
+insert into Borrower values('Aditya','23CD23');
+
+select * from Branch; 
+select * from Loan; 
+select * from Accounts;
+select * from Customer;
+select * from Depositer;
+select * from Borrower;
+
+ 
+ select C.customername from Customer C 
+ where exists ( 
+ select D.customername, count(D.customername) 
+ from depositer D, Accounts A where 
+ D.accno = A.accno AND C.customername = D.customername AND 
+ BA.branchname = 'HDFC_Malleswaram' group by D. customername having count(D.customername) >=2
+); 
+
+select C.customername from Customer C where not exists(
+	select branchname from Branch where branchcity = 'Hyderabad'
+	NOT IN
+    select BA.branchname from Depositer D, BankAccount BA
+	where D.accno = BA.accno and BC.customername = D.customername
+);
+
+delete from BankAccount where branchname in( select branchname from Branch where branchcity = 'Chennai' );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
