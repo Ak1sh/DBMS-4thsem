@@ -232,4 +232,4 @@ AND E.salary >( SELECT AVG (E1.salary)
  WHERE E1.eid IN
 ( SELECT DISTINCT C1.eid
  FROM Certified C1 ) );
-Footer
+
