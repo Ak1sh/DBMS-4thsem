@@ -1,51 +1,92 @@
-create database orderprocessing074;
-use  orderprocessing074;
-create table customer(cust int primary key,cname varchar(30),city varchar(30));
-create table order_details(orderd int,odate date,cust int,ord_amt int,primary key(orderd,cust),foreign key(cust) references customer(cust));
-create table item(item int primary key,unit_price int);
-create table order_item(orderd int,item int,qty int,primary key(orderd,item),foreign key(orderd) references order_details(orderd),foreign key(item) references item(item));
-create table warehouse(warehouse int primary key,city varchar(30));
-create table shipment(orderd int,warehouse int,ship_date date,primary key(orderd,warehouse),foreign key(orderd) references order_details(orderd),foreign key(warehouse) references warehouse(warehouse));
-show tables;
-desc shipment;
+create database order_processing616;
+use order_processing616;
+create table CUSTOMER(cust int, cname varchar(30), city varchar(30), primary key(cust));
+create table ORDER_1(order_id int, odate date, cust int, ord_amt int, primary key(order_id, cust), foreign key(cust) references CUSTOMER(cust));
+create table ITEM(item int, unit_price int, primary key(item));
+create table ORDER_ITEM(order_id int, item int, qty int, primary key(order_id, item), 
+foreign key(order_id) references ORDER_1(order_id), foreign key(item) references ITEM(item));
+create table WAREHOUSE(warehouse int, city varchar(30), primary key(warehouse));
+create table SHIPMENT(order_id int, warehouse int, ship_date date, primary key(order_id, warehouse), foreign key(order_id) references ORDER_1(order_id), 
+foreign key(warehouse) references WAREHOUSE(warehouse));
+desc CUSTOMER;
+desc ORDER_1;
+desc ITEM;
+desc ORDER_ITEM;
+DESC WAREHOUSE;
+DESC SHIPMENT;
+insert into CUSTOMER VALUES (1,"Anirudh","Bengaluru");
+insert into CUSTOMER VALUES (2,"Tarun","Chennai");
+insert into CUSTOMER VALUES (3,"Venu","Hyderabad");
+insert into CUSTOMER VALUES (4,"Pranav","Mandi");
+insert into CUSTOMER VALUES (5,"Aditya","Mumbai");
 
-insert into customer values(1,"A","ananthapur");
-insert into customer values(2,"B","bangalore");
-insert into customer values(3,"C","raichur");
-insert into customer values(4,"D","tumkur");
-insert into customer values(5,"E","mangalore");
+insert into ORDER_1 VALUES (101, '2022-06-26', 1, 200);
+insert into ORDER_1 VALUES (102, '2022-06-26', 1, 400);
+insert into ORDER_1 VALUES (103, '2022-06-26', 1, 1200);
+insert into ORDER_1 VALUES (104, '2022-06-26', 1, 550);
+insert into ORDER_1 VALUES (105, '2022-06-27', 2, 100);
+insert into ORDER_1 VALUES (106, '2022-06-27', 2, 50);
+insert into ORDER_1 VALUES (107, '2022-06-28', 3, 600);
+insert into ORDER_1 VALUES (108, '2022-06-29', 4, 7200);
+insert into ORDER_1 VALUES (109, '2022-06-29', 4, 330);
+insert into ORDER_1 VALUES (110, '2022-06-30', 5, 100);
 
+insert into ITEM VALUES(201,30);
+insert into ITEM VALUES(202,50);
+insert into ITEM VALUES(203,100);
+insert into ITEM VALUES(204,200);
+insert into ITEM VALUES(205,1000);
+insert into ITEM VALUES(10,100);
 
-insert into order_details values(11,"2022-05-20",1,400);
-insert into order_details values(22,"2022-07-20",2,2000);
-insert into order_details values(33,"2022-05-10",3,20000);
-insert into order_details values(44,"2022-01-16",4,16000);
-insert into order_details values(55,"2021-12-08",5,4000);
+insert into ORDER_ITEM VALUES (101,204,1);
+insert into ORDER_ITEM VALUES (102,204,2);
+insert into ORDER_ITEM VALUES (103,205,1);
+insert into ORDER_ITEM VALUES (103,10,2);
+insert into ORDER_ITEM VALUES (104,202,11);
+insert into ORDER_ITEM VALUES (105,202,2);
+insert into ORDER_ITEM VALUES (106,202,1);
+insert into ORDER_ITEM VALUES (107,201,20);
+insert into ORDER_ITEM VALUES (108,205,5);
+insert into ORDER_ITEM VALUES (108,201,4);
+insert into ORDER_ITEM VALUES (108,204,10);
+insert into ORDER_ITEM VALUES (108,202,1);
+insert into ORDER_ITEM VALUES (108,10,3);
+insert into ORDER_ITEM VALUES (109,201,11);
+insert into ORDER_ITEM VALUES (110,203,1);
 
-insert into Item values(1, 10000);
-insert into Item values(2, 5000);
-insert into Item values(3, 500);
-insert into Item values(4, 100);
-insert into Item values(5, 1200);
+insert into WAREHOUSE VALUES (501,"Bengaluru");
+insert into WAREHOUSE VALUES (502,"Hyderabad");
+insert into WAREHOUSE VALUES (503,"Chennai");
+insert into WAREHOUSE VALUES (504,"Mandi");
+insert into WAREHOUSE VALUES (505,"Mumbai");
+insert into WAREHOUSE VALUES (506,"Bengaluru");
 
-insert into order_item values(11, 3, 1);
-insert into order_item values(11, 4, 2);
-insert into order_item values(22, 5, 3);
-insert into order_item values(33, 2, 3);
-insert into order_item values(55, 1, 2);
+insert into SHIPMENT VALUES (101,501,"2022-06-25");
+insert into SHIPMENT VALUES (102,501,"2022-06-25");
+insert into SHIPMENT VALUES (103,501,"2022-06-25");
+insert into SHIPMENT VALUES (104,506,"2022-06-25");
+insert into SHIPMENT VALUES (105,502,"2022-06-26");
+insert into SHIPMENT VALUES (106,502,"2022-06-26");
+insert into SHIPMENT VALUES (107,503,"2022-06-27");
+insert into SHIPMENT VALUES (108,504,"2022-06-28");
+insert into SHIPMENT VALUES (109,504,"2022-06-28");
+insert into SHIPMENT VALUES (110,505,"2022-06-29");
 
-insert into Warehouse values(1, 'Bengaluru');
-insert into Warehouse values(2, 'raichur');
-insert into Warehouse values(3, 'Delhi');
-insert into Warehouse values(4, 'manglore');
-insert into Warehouse values(5, 'ananthapur');
-insert into Warehouse values(6, 'Bengaluru');
+select * from CUSTOMER;
+select * from ORDER_1;
+select * from ITEM;
+select * from ORDER_ITEM;
+select * from WAREHOUSE;
+select * from SHIPMENT;
 
-insert into Shipment values(11, 2, '2022-06-12');
-insert into Shipment values(22, 5, '2022-08-17');
-insert into Shipment values(44, 4, '2022-02-05');
-insert into Shipment values(55, 2, '2022-01-24');
-insert into Shipment values(33, 1, '2022-06-16');
+COMMIT;
 
--- query(1)
- 
+select c.cname AS CUSTNAME, count(o.order_id) AS no_of_orders, avg(o.ord_amt)AS AVG_ORDER_AMT from CUSTOMER c, ORDER_1 o where c.CUST =o .CUST group by o.CUST;
+
+select s.order_id from SHIPMENT s, WAREHOUSE w where s.warehouse=w.warehouse AND w.city='Bengaluru';
+
+DELETE FROM ORDER_ITEM
+WHERE item=10;
+
+DELETE FROM ITEM
+WHERE item=10;
